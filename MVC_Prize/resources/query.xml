@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+	<!-- 1. 수상자 등록 -->
+	<entry key="insertRecipient">
+		INSERT INTO PRIZE VALUES(SEQ_PRIZENO.NEXTVAL,
+								?,
+								?,
+								?,
+								?,
+								?,
+								?)
+	</entry>
+	
+	<!-- 2. 수상자 전체 조회 -->
+	<entry key="selectAll">
+		SELECT * FROM PRIZE
+	</entry>
+	
+	<!-- 3. 상장명 키워드 검색 -->
+	<entry key="selectByPrize">
+		SELECT *
+		  FROM PRIZE
+		 WHERE PRIZE_NAME LIKE ?
+	</entry>
+	
+	<!-- 4. 수상자명 키워드 검색 -->
+	<entry key="selectByRecipient">
+		SELECT *
+		  FROM PRIZE
+		 WHERE RECIPIENT_NAME LIKE ?
+	</entry>
+	
+	<!-- 5. 2개 이상 상을 받은 사람 조회-->
+	<entry key="selectHighPrize">
+		SELECT *
+		  FROM PRIZE
+		 WHERE RECIPIENT_NO IN(SELECT RECIPIENT_NO
+		                           FROM PRIZE
+		                          GROUP BY RECIPIENT_NO
+		                         HAVING COUNT(*) > 1)
+		 ORDER BY RECIPIENT_NAME
+	</entry>
+	
+	<!-- 6. 가장 상금이 높은 상을 받은 사람 조회 -->
+	<entry key="selectHighMoney">
+		SELECT *
+		  FROM PRIZE
+		 WHERE PRIZE_MONEY = (SELECT MAX(PRIZE_MONEY) FROM PRIZE)
+	</entry>
+	
+	<!-- 7. 수상 정보 변경 -->
+	<entry key="updatePrize">
+		UPDATE PRIZE
+		   SET PRIZE_NAME = ?,
+		   	   PRIZE_MONEY = ?
+		 WHERE PRIZE_NO = ?
+	</entry>
+	
+	<!-- 8. 수상 정보 삭제 -->
+	<entry key="deletePrize">
+		DELETE 
+		  FROM PRIZE
+		 WHERE PRIZE_NO = ?
+	</entry>
+	
+	
+	
+	
+	
+	
+	<!-- 5. 2개 이상 상을 받은 사람 조회-->
+	<entry key="selectHighPrize1212">
+		SELECT *
+		  FROM PRIZE
+		 WHERE RECIPIENT_NO = (SELECT RECIPIENT_NO
+		                         FROM PRIZE
+		                        GROUP BY RECIPIENT_NO
+		                       HAVING COUNT(*) > 1)
+	</entry>
+	
+	<!-- 4. 장르로 검색-->
+	<entry key="selectByGenre">
+		SELECT *
+		  FROM STEAM
+		 WHERE GENRE = ?
+	</entry>
+	
+	<!-- 5. 연령등급 검색 -->
+	<entry key="selectByAge">
+		SELECT *
+		  FROM STEAM
+		 WHERE AGE &lt;= ?
+	</entry>
+	
+	<!-- 6. 게임 정보 변경 -->
+	<entry key="updateGame">
+		UPDATE STEAM
+		   SET AGE = ?,
+		   	   PRICE = ?,
+		   	   PRODUCER = ?,
+		   	   DISCOUNT_RATE = ?,
+		   	   EX_PACK = ?
+		 WHERE GAME_NO = ?
+	</entry>
+	
+	<!-- 7. 게임 삭제 -->
+	<entry key="deleteGame">
+		DELETE
+		  FROM STEAM
+		 WHERE GAME_NO = ?
+	</entry>
+	
+	<!-- 8. 가격이 낮은 순으로 조회 -->
+	<entry key="selectByLowPrice">
+		SELECT *
+		  FROM STEAM
+		 ORDER BY PRICE ASC
+	</entry>
+	
+	<!-- 9. 높은 가격순별 검색 -->
+	<entry key="highPrice">
+		SELECT *
+		FROM STEAM
+		ORDER BY PRICE DESC
+	</entry>
+	
+	<!-- 10. 높은 할인률별 검색 -->
+	<entry key="highDiscountRate">
+		SELECT *
+		FROM STEAM
+		ORDER BY DISCOUNT_RATE DESC
+	</entry>
+	
+	<!-- 11. 제작사별 검색 -->	
+	<entry key="searchProducer">
+		SELECT *
+		FROM STEAM
+		WHERE PRODUCER = ?
+	</entry>
+	
+	<!-- 12. 확장판이 있는 게임 -->
+	<entry key="checkExPack">
+		SELECT *
+		FROM STEAM
+		WHERE EX_PACK = 'Y'
+	</entry>
+</properties>
